@@ -1,0 +1,30 @@
+{
+  "name": "reca-backend",
+  "version": "1.0.0",
+  "description": "reca project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Donneto/reca-backend.git"
+  },
+  "author": "https://github.com/Donneto",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Donneto/reca-backend/issues"
+  },
+  "homepage": "https://github.com/Donneto/reca-backend#readme",
+  "dependencies": {
+    "@hapi/glue": "^7.0.0",
+    "@hapi/hapi": "^19.1.1",
+    "@hapi/hoek": "^9.0.4",
+    "@hapi/joi": "^17.1.1",
+    "confidence": "^4.0.2",
+    "jsend": "^1.1.0",
+    "moment": "^2.24.0",
+    "mongoose": "^5.9.6"
+  }
+}

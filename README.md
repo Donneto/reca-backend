@@ -1,2 +1,4 @@
-# reca-backend
-Backend for RECA
+# RECA - API
+
+RECA Project - Backend
+
