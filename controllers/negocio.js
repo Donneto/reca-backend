@@ -2,40 +2,35 @@
 
 // Dependencies
     const jsend = require('jsend');
+    const algoliasearch = require('algoliasearch');
     const negocioCollection = require('../models/negocio');
+
+    const client = algoliasearch('SIXFN4ICTO', '7f949d497ee2fb57463ef4116d4ad0ae');
+
+    // const algoliaClient = algolia(process.env.algoliaappid, process.env.algoliaadminkey);
+    const index = client.initIndex('reca_prod');
 
 // Internals
     const internals = {};
 
 // Methods
-    // internals.get = async (request, h) =>  {
-    //     let docs;
-
-    //     try {
-          
-    //         docs = await categoryCollection.find({}).sort({ name: 1 });
-            
-    //         return jsend.success(docs);
-
-    //     } catch(e) {
-    //         return jsend.error('Something went wrong!');
-    //     }
-    // };
-
     internals.create =  async (request, h) => {
         const data = request.payload;
         let negocio;
         let doc;
+        let algoliaTransaction;
         
         try {
-            console.log('here');
-            console.log(data);
-            
             negocio = new negocioCollection(data);
             doc = await negocio.save();
+            console.log(doc._id);
+            
+            algoliaTransaction = await index.saveObject({
+                objectID: doc._id,
+                ...data
+              });
             
             return jsend.success(doc);
-
         } catch(e) {
             console.log(e.message);
             

@@ -25,6 +25,8 @@ const internals = {
 internals.config = {
     root: Path.resolve(__dirname, '../'),
     env: internals.defaults.env,
+    algoliaid: process.env.algoliaappid,
+    algoliaadmin: process.env.algoliaadminkey,
     manifest: {
         server: {
             port: {
