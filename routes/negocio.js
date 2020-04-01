@@ -26,6 +26,7 @@ const joi = require('@hapi/joi');
             telefono: joi.string().required(),
             uniqueKey: joi.string().required(),
             whatsapp: joi.string().allow(''),
+            website: joi.string().allow(''),
         }),
         checkUniqueKeySetting: joi.object({
             uniqueKey: joi.string().required()
