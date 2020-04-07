@@ -133,5 +133,33 @@ const joi = require('@hapi/joi');
                     }
                 }
             }
+        },
+        {
+            method: 'GET',
+            path: `/${internals.collection}/get-pendings`,
+            handler: negocioController.getPendings,
+            options: {
+                validate: {
+                    failAction: async (request, h, err) => {
+                        console.error(err);
+                        throw err;
+                    }
+                }
+            }
+        },
+        {
+            method: 'post',
+            path: `/${internals.collection}/aprove`,
+            handler: negocioController.aprove,
+            options: {
+                validate: {
+                    failAction: async (request, h, err) => {
+                        console.error(err);
+                        throw err;
+                    }
+                }
+            }
         }
+
+        
     ];

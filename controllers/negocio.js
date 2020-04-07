@@ -14,21 +14,59 @@
     const internals = {};
 
 // Methods
+    internals.getPendings = async (request, h) => {
+        let transaction;
+
+        try {
+
+            transaction = await negocioCollection.find({ revisado: false });
+
+            return jsend.success(transaction);
+
+        } catch(e) {
+            console.log(e.message);
+
+            return jsend.error('Something went wrong!');
+        }
+    };
+
+    internals.aprove = async (request, h) => {
+        let transaction;
+        const data = request.payload;
+        let algoliaTransaction;
+        
+        try {
+
+            transaction = await negocioCollection.findOne({ _id: data.id });
+
+            transaction.revisado = true;
+            transaction.activo = true;
+
+            await transaction.save();
+
+            await index.saveObject({
+                objectID: transaction._id,
+                ...transaction._doc
+            });
+
+            return jsend.success(transaction);
+
+        } catch(e) {
+            console.log(e.message);
+
+            return jsend.error('Something went wrong!');
+        }
+    };
+
+
     internals.create =  async (request, h) => {
         const data = request.payload;
         let negocio;
         let doc;
-        let algoliaTransaction;
 
         try {
             negocio = new negocioCollection(data);
             doc = await negocio.save();
-            console.log(doc._id);
-
-            algoliaTransaction = await index.saveObject({
-                objectID: doc._id,
-                ...data
-              });
 
             return jsend.success(doc);
         } catch(e) {
@@ -119,25 +157,6 @@
             return jsend.error('Something went wrong!');
         }
     };
-
-    // internals.update =  async (request, h) => {
-    //     const data = request.payload;
-    //     let category;
-
-    //     try {
-
-    //         category = await categoryCollection.findOne({ _id: data._id });
-
-    //         category = Object.assign(category, data);
-
-    //         await category.save();
-
-    //         return jsend.success(category);
-
-    //     } catch(e) {
-    //         return jsend.error('Something went wrong!');
-    //     }
-    // };
 
     // internals.delete = async (request, h) => {
     //     const id = request.params.id || null;
