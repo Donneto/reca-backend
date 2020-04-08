@@ -129,6 +129,10 @@
                 return jsend.success({ error: 'Informacion Invalida, por favor revise su correo y/o llave secreta.' });
             }
 
+            if (negocio.revisado == false) {
+                return jsend.success({ error: 'Su negocio no ha sido procesado todavia. Conceda de 12 a 24 horas para su revision.' });
+            }
+
             return jsend.success(negocio);
         } catch(e) {
             console.log(e.message);
@@ -148,6 +152,11 @@
             negocio = Object.assign(negocio, data);
 
             await negocio.save();
+
+            await index.saveObject({
+                objectID: negocio._id,
+                ...negocio._doc
+            });
 
             return jsend.success(negocio);
 
