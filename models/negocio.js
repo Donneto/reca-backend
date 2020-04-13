@@ -7,6 +7,7 @@
 
 const negocioSchema = new Schema({
     nombre: String,
+    description: String,
     activo: Boolean,
     ciudad: String,
     direccion: String,

@@ -9,6 +9,7 @@ const joi = require('@hapi/joi');
         collection: 'negocios',
         postValidationSettings: joi.object({
             nombre: joi.string().required(),
+            description: joi.string().required().max(300).allow(''),
             activo: joi.boolean().default(true),
             ciudad: joi.string().required(),
             direccion: joi.string().required(),
@@ -40,6 +41,7 @@ const joi = require('@hapi/joi');
         }),
         updateBusiness: joi.object({
             nombre: joi.string().required(),
+            description: joi.string().required().max(300).allow(''),
             activo: joi.boolean().default(true),
             ciudad: joi.string().required(),
             direccion: joi.string().required(),
