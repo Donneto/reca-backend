@@ -3,6 +3,7 @@
 // Dependencies
     const jsend = require('jsend');
     const algoliasearch = require('algoliasearch');
+    const bcrypt = require('bcrypt');
     const negocioCollection = require('../models/negocio');
 
     const client = algoliasearch('SIXFN4ICTO', '7f949d497ee2fb57463ef4116d4ad0ae');
@@ -33,7 +34,6 @@
     internals.aprove = async (request, h) => {
         let transaction;
         const data = request.payload;
-        let algoliaTransaction;
         
         try {
 
@@ -65,6 +65,8 @@
         let doc;
 
         try {
+            data.uniqueKey = await bcrypt.hash(data.uniqueKey, 10);
+            console.log(data);
             negocio = new negocioCollection(data);
             doc = await negocio.save();
 
@@ -123,13 +125,22 @@
         let negocio;
 
         try {
-            negocio = await negocioCollection.findOne({ email: data.email, uniqueKey: data.uniqueKey });
+            negocio = await negocioCollection.findOne({ email: data.email });
 
             if (!negocio) {
-                return jsend.success({ error: 'Informacion Invalida, por favor revise su correo y/o llave secreta.' });
+
+                return jsend.success({ error: 'Email no esta registrado.' });
+            }
+
+            const compareKey = await bcrypt.compare(data.uniqueKey, negocio.uniqueKey);
+
+            if (compareKey === false) {
+
+                return jsend.success({ error: 'Contraseña invalida.' });
             }
 
             if (negocio.revisado == false) {
+
                 return jsend.success({ error: 'Su negocio no ha sido procesado todavia. Conceda de 12 a 24 horas para su revision.' });
             }
 
