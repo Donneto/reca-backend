@@ -13,11 +13,11 @@ const internals = {
         env: process.env.NODE_ENV || 'dev'
     },
     mongo: {
-        uri: 'mongodb+srv://recadmin:wRcCLn59cwbLyUP@cluster0-c9l6i.mongodb.net/reca?retryWrites=true&w=majority',
-        dbName: 'reca',
+        uri: `mongodb+srv://${process.env.mongouser}:${process.env.mongopass}@cluster0-c9l6i.mongodb.net/${process.env.mongodb}?retryWrites=true&w=majority`,
+        dbName: process.env.mongodb,
         mongoOptions: {
-            user: 'recadmin',
-            pass: 'wRcCLn59cwbLyUP'
+            user: process.env.mongouser,
+            pass: process.env.mongopass
         }
     }
 };
